@@ -1,10 +1,10 @@
-const Users = require("../models/User");
+const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const createUser = async (req, res) => {
     const {firstName, lastName, email, password} = req.body
-    const user = await Users.create({firstName:firstName, lastName:lastName, email:email, password:password});
+    const user = await User.create({firstName:firstName, lastName:lastName, email:email, password:password});
     // console.log(user)
     // try {
     //   const salt = await bcrypt.genSalt();

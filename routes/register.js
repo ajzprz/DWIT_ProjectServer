@@ -5,6 +5,6 @@ const { createUser } = require("../controllers/register");
 
 const router = new express.Router();
 
-router.post("/", validate,createUser  );
+router.post("/", validate, createUser  );
 
 module.exports = router;
