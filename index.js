@@ -5,8 +5,7 @@ const connectDatabase = require('./database/connection');
 const Post = require('./models/Posts')
 const Users = require('./models/User')
 const postsRoutes = require('./routes/posts')
-const loginRoutes = require('./routes/login')
-const registerRoutes = require('./routes/register');
+const authRoutes = require('./routes/authRoutes')
 
 const app = express();
 
@@ -18,8 +17,7 @@ app.use(cors())
 app.use(morgan('tiny'))
 
 app.use('/posts',postsRoutes )
-app.use('/register',registerRoutes )
-app.use('/login',loginRoutes)
+app.use('/user', authRoutes )
 
 app.get('/', async (req,res)=>{
     const Posts = await Post.find()
