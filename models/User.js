@@ -14,12 +14,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    // validation: validator.isEmail,
+    validate:[validator.isEmail,'Invalid email'],
   },
   password: {
     type: String,
     required: true,
-    // validation: validator.isPassword,
   },
 });
 
