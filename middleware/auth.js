@@ -36,8 +36,7 @@ const requireAuth = (req, res, next) => {
   } catch (error) {
     res.send("Incorrect Password")
     console.error(error)
-  }
-  
+  }  
 };
 
 
