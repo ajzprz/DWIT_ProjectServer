@@ -39,6 +39,8 @@ router.post("/newPost", upload.single('image'),
     try {
       var obj = {title: req.body.title,
       location: req.body.location,
+      latitude:req.body.latitude,
+      longitude : req.body.longitude,
       firstParagraph: req.body.firstParagraph,
       secondParagraph: req.body.secondParagraph,
       thirdParagraph: req.body.thirdParagraph,

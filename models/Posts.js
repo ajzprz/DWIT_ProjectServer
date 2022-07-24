@@ -4,7 +4,7 @@ const postsSchema = mongoose.Schema({
     title : {
         type:String,
         reqired:true,
-        maxLength:100
+        maxLength:100    
     },
 
     location : {
@@ -31,6 +31,8 @@ const postsSchema = mongoose.Schema({
     userName :String,
     latitude:String,
     longitude:String,
+
+
 })
 
 const Post = mongoose.model("Post", postsSchema)
