@@ -17,12 +17,13 @@ const loginUser = async (req, res) => {
         const compPassword = await bcrypt.compare(password, user[0].password);
         if (compPassword) {
           console.log("Passowrd Match");
-          const token = jwt.sign({ id: user._id }, "mern-secret", {expiresIn: 24 * 60 * 60});
-          res.cookie("jwt", token, {maxAge: 24*60*60*1000});
-          res.json(user)
-        //  res.send({id:user._id})
-         console.log(token);
-        //  console.log(cookie)
+          const token = jwt.sign({ id: user._id }, "mern-secret", {
+            expiresIn: 24 * 60 * 60,
+          });
+          res.cookie("jwt", token, { maxAge: 24 * 60 * 60 * 1000, HttpOnly: false });
+          res.json({user:user, token:token});
+          // console.log(token);
+          //  console.log(user)
         } else {
           res.status(401).send("Incorrect Password");
         }
@@ -45,10 +46,11 @@ const createUser = async (req, res) => {
     const token = jwt.sign({ id: user.id }, "mern-secret", {
       expiresIn: 24 * 60 * 60,
     });
-    res.cookie('jwt', token, {
+
+    res.cookie("jwt", token, {
       maxAge: 24 * 60 * 60 * 60 * 1000,
     });
-    res.json(user);
+    res.json({user:user});
   } catch (error) {
     console.log(error);
   }
@@ -57,7 +59,7 @@ const createUser = async (req, res) => {
 const logOutUser = (req, res) => {
   try {
     const token = jwt.sign({ id: " " }, "mern-secret", { expiresIn: 1 });
-    res.cookie('jwt', token, {
+    res.cookie("jwt", token, {
       maxAge: 1,
     });
     res.redirect("/");
