@@ -15,6 +15,23 @@ const validateRegister = async (req,res,next) =>{
     }
 }
 
+const validateDuplicateEmail = async (req,res,next) =>{
+  try {
+    const{email} = req.body
+    const compareEmail = await Users.find({email:email},async(err,user)=>{
+      if(user[0]){
+        res.status(401)
+        console.log('duplicate email please use another email')
+      }
+      else{
+        next()
+      }
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 const validateLogin = async (req,res,next) =>{
     const {email , password} = req.body
     if(email === '' || password ==='' ){
@@ -41,4 +58,4 @@ const requireAuth = (req, res, next) => {
 
 
 
-module.exports = {validateRegister, validateLogin, requireAuth}
+module.exports = {validateRegister, validateDuplicateEmail, validateLogin, requireAuth}
