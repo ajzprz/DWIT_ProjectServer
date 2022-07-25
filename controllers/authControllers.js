@@ -46,12 +46,13 @@ const createUser = async (req, res) => {
     const token = jwt.sign({ id: user.id }, "mern-secret", {
       expiresIn: 24 * 60 * 60,
     });
-
+    
     res.cookie("jwt", token, {
       maxAge: 24 * 60 * 60 * 60 * 1000,
     });
-    res.json({user:user});
+    res.json({user:user})
   } catch (error) {
+    res.status(201).send('Duplicate email')
     console.log(error);
   }
 };
@@ -62,7 +63,6 @@ const logOutUser = (req, res) => {
     res.cookie("jwt", token, {
       maxAge: 1,
     });
-    res.redirect("/");
   } catch (error) {
     console.log(error);
   }
