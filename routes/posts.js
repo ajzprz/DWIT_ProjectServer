@@ -1,19 +1,16 @@
 const express = require("express");
-var path = require('path');
-var fs = require('fs');
-var multer = require('multer');
+var path = require("path");
+var fs = require("fs");
+var multer = require("multer");
 
 const { requireAuth } = require("../middleware/auth");
 const Post = require("../models/Posts");
 const router = new express.Router();
 
-
 router.get("/post", async (req, res) => {
   let Posts = await Post.find();
   res.json(Posts);
 });
-
-
 
 router.get("/:postId", async (req, res) => {
   let { postId } = req.params;
@@ -21,51 +18,66 @@ router.get("/:postId", async (req, res) => {
   res.json(SinglePost);
 });
 
-
-  
-var storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-      cb(null, 'uploads')
-  },
-  filename: (req, file, cb) => {
-      cb(null, file.fieldname + '-' + Date.now())
-  }
+router.delete("/:postId", async (req, res) => {
+  let { postId } = req.params;
+  let deletePost = await Post.findByIdAndDelete(postId);
+  res.json(deletePost);
 });
 
-var upload = multer({ storage: storage });
+router.put("/:postId", async (req, res) => {
+  let { postId } = req.params;
+  let obj = {
+    author: req.body.author,
+    title: req.body.title,
+    location: req.body.location,
+    latitude: req.body.latitude,
+    longitude: req.body.longitude,
+    firstParagraph: req.body.firstParagraph,
+    secondParagraph: req.body.secondParagraph,
+    thirdParagraph: req.body.thirdParagraph,
+    image: req.body.image,
+    rating: req.body.rating,
+    cost: req.body.cost,
+    heritages: req.body.heritages,
+  };
 
-router.post("/newPost", upload.single('image'),
-  async (req, res) => {
-    try {
-      var obj = {title: req.body.title,
+  let editPost = await Post.findByIdAndUpdate(obj);
+  res.json(editPost);
+});
+
+router.post("/newPost", async (req, res) => {
+  try {
+    let obj = {
+      author: req.body.author,
+      title: req.body.title,
       location: req.body.location,
-      latitude:req.body.latitude,
-      longitude : req.body.longitude,
+      latitude: req.body.latitude,
+      longitude: req.body.longitude,
       firstParagraph: req.body.firstParagraph,
       secondParagraph: req.body.secondParagraph,
       thirdParagraph: req.body.thirdParagraph,
-      img : req.body.img,
-    //   img : {
-    //     data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
-    //     contentType: 'image/png'
-    // },
+      image: req.body.image,
       rating: req.body.rating,
       cost: req.body.cost,
-      heritages: req.body.heritages,}
+      heritages: req.body.heritages,
+    };
 
-      let result = await Post.create(obj,{
-        if(err){
-          conslole.log(err)
-        }
-       
-      });
-      res.json(result)
-      
-    } catch (error) {
-      console.log(error)
-    }
-   
+    let result = await Post.create(obj);
+    res.json(result);
+  } catch (error) {
+    console.log(error);
+  }
 });
 
+// var storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//       cb(null, 'uploads')
+//   },
+//   filename: (req, file, cb) => {
+//       cb(null, file.fieldname + '-' + Date.now())
+//   }
+// });
+
+// var upload = multer({ storage: storage });
 
 module.exports = router;
