@@ -1,6 +1,9 @@
 const mongoose = require ('mongoose')
 
 const postsSchema = mongoose.Schema({
+    author: {
+        type:String,
+    },
     title : {
         type:String,
         reqired:true,
@@ -17,17 +20,13 @@ const postsSchema = mongoose.Schema({
     secondParagraph:String,
     thirdParagraph:String,
     image:String,
-    img:{
-      data:Buffer,
-      contentType:String,  
-    },
     reviews:{
         type: Number
     },
     rating:Number,
     cost:Number,
     heritages:[String ],
-    suggestions:String,
+    suggestion:String,
     userName :String,
     latitude:String,
     longitude:String,

@@ -22,6 +22,7 @@ const loginUser = async (req, res) => {
           });
           res.cookie("jwt", token, { maxAge: 24 * 60 * 60 * 1000, HttpOnly: false });
           res.json({user:user, token:token});
+          res.status(200)
           // console.log(token);
           //  console.log(user)
         } else {
